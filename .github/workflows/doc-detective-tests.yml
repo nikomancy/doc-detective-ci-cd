@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - gh-pages
-    paths:
-      - '_posts/**/*.md'
 
 jobs:
   run-tests:
@@ -15,12 +13,14 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: 'doc-detective/doc-detective'
-        path: 'doc-detective'  # Check out the doc-detective repo into a 'doc-detective' directory
+        path: 'doc-detective'  # Check out the doc-detective repo into a 'doc-detective' directorya
 
-    - name: Checkout the original repository
+    - name: Checkout nikomancy/doc-detective-ci-cd repository
       uses: actions/checkout@v2
       with:
-        path: 'original-repo'  # Check out the original repo into an 'original-repo' directory
+        repository: 'nikomancy/doc-detective-ci-cd'
+        ref: 'gh-pages'  # Specify the branch to checkout
+        path: 'doc-detective-ci-cd'  # Check out the repository into a 'doc-detective-ci-cd' directory
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -35,4 +35,4 @@ jobs:
     - name: Run Doc Detective tests
       run: |
         cd doc-detective
-        npm run runTests -- --input ../original-repo/_posts/
+        npm run runTests -- --input ../doc-detective-ci-cd/_posts/
