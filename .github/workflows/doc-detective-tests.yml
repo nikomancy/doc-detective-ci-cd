@@ -30,7 +30,7 @@ jobs:
     - name: Install Doc Detective dependencies
       run: |
         cd doc-detective
-        npm install
+        npm install --verbose
 
     - name: Run Doc Detective tests
       run: |
