@@ -1,0 +1,38 @@
+name: Run Doc Detective Tests
+
+on:
+  push:
+    branches:
+      - gh-pages
+    paths:
+      - '_posts/**/*.md'
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Doc Detective repository
+      uses: actions/checkout@v2
+      with:
+        repository: 'doc-detective/doc-detective'
+        path: 'doc-detective'  # Check out the doc-detective repo into a 'doc-detective' directory
+
+    - name: Checkout the original repository
+      uses: actions/checkout@v2
+      with:
+        path: 'original-repo'  # Check out the original repo into an 'original-repo' directory
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Doc Detective dependencies
+      run: |
+        cd doc-detective
+        npm install
+
+    - name: Run Doc Detective tests
+      run: |
+        cd doc-detective
+        npm run runTests -- --input ../original-repo/_posts/
