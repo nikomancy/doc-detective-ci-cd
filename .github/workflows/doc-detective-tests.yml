@@ -27,19 +27,6 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install Chrome Browser
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
-        sudo apt-get -f install -y
-
-    - name: Set Puppeteer Environment Variables
-      run: |
-        echo "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true" >> $GITHUB_ENV
-        echo "PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome" >> $GITHUB_ENV
-
     - name: Install Doc Detective dependencies
       run: |
         cd doc-detective
