@@ -31,12 +31,11 @@ jobs:
       run: |
         cd doc-detective
         npm ci --verbose
-
-    - name: Install jq
-      run: sudo apt-get install -y jq
+        sudo apt-get install -y jq
 
     - name: Run Doc Detective tests
       run: |
+        cd doc-detectived
         output=$(npm run runTests -- --input ../doc-detective-ci-cd/_posts/)
         echo "$output"
         failures=$(echo "$output" | jq -r '.specs[] | select(.result=="FAIL") | .tests[] | select(.result=="FAIL") | .contexts[] | select(.result=="FAIL") | .steps[] | select(.result=="FAIL") | .resultDescription')
