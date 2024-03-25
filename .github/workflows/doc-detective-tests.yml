@@ -36,3 +36,9 @@ jobs:
       run: |
         cd doc-detective
         npm run runTests -- --input ../doc-detective-ci-cd/_posts/
+    - name: Check Doc Detective test results
+      run: |
+        cd doc-detective
+        if jq '.summary.tests.fail > 0 or .summary.specs.fail > 0 or .summary.contexts.fail > 0 or .summary.steps.fail > 0' results.json; then
+          exit 1
+        fi
