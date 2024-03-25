@@ -36,7 +36,7 @@ curl --request POST \
 }'
 ```
 
-[comment]: # (step { "action": "httpRequest", "url": "https://reqres.in/api/users", "method": "post", "requestData": { "name": "Doc Brow", "job": "Test master" }, "responseData": { "name": "Doc Brown" }, "statusCodes": [200, 201] })
+[comment]: # (step { "action": "httpRequest", "url": "https://reqres.in/api/users", "method": "post", "requestData": { "name": "Doc Brown", "job": "Test master" }, "responseData": { "name": "Doc Brown" }, "statusCodes": [200, 201] })
 
 The API will return confirmation that the request created a new user and will list the fields on that user.
 
