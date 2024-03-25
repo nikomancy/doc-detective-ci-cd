@@ -32,14 +32,19 @@ jobs:
         cd doc-detective
         npm ci --verbose
 
+    - name: Install jq
+      run: sudo apt-get install -y jq
+
     - name: Run Doc Detective tests
       run: |
         cd doc-detective
-        npm run runTests -- --input ../doc-detective-ci-cd/_posts/
-
-    - name: Check Doc Detective test results
-      run: |
-        cd doc-detective
-        if jq '.summary.tests.fail > 0 or .summary.specs.fail > 0 or .summary.contexts.fail > 0 or .summary.steps.fail > 0' results.json; then
-          exit 1
+        output=$(npm run runTests -- --input ../doc-detective-ci-cd/_posts/)
+        echo "$output"
+        failures=$(echo "$output" | jq -r '.specs[] | select(.result=="FAIL") | .tests[] | select(.result=="FAIL") | .contexts[] | select(.result=="FAIL") | .steps[] | select(.result=="FAIL") | .resultDescription')
+        if [ -n "$failures" ]; then
+            echo "Failures detected:"
+            echo "$failures"
+            exit 1
+        else
+            echo "No failures detected."
         fi
