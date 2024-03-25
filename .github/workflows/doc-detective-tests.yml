@@ -36,6 +36,7 @@ jobs:
       run: |
         cd doc-detective
         npm run runTests -- --input ../doc-detective-ci-cd/_posts/
+
     - name: Check Doc Detective test results
       run: |
         cd doc-detective
