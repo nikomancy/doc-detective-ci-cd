@@ -38,9 +38,10 @@ jobs:
     - name: Run Doc Detective tests
       run: |
         cd doc-detective
-        output=$(npm run runTests -- --input ../doc-detective-ci-cd/_posts/)
-        echo "$output"
-        failures=$(echo "$output" | jq -r '.specs[] | select(.result=="FAIL") | .tests[] | select(.result=="FAIL") | .contexts[] | select(.result=="FAIL") | .steps[] | select(.result=="FAIL") | .resultDescription')
+        npm run runTests -- --input ../doc-detective-ci-cd/_posts/
+        latest_results=$(ls -t /home/runner/work/doc-detective-ci-cd/doc-detective-ci-cd/doc-detective/*.json | head -n1)
+        echo "Latest results file: $latest_results"
+        failures=$(jq -r '.specs[] | select(.result=="FAIL") | .tests[] | select(.result=="FAIL") | .contexts[] | select(.result=="FAIL") | .steps[] | select(.result=="FAIL") | .resultDescription' "$latest_results")
         if [ -n "$failures" ]; then
             echo "Failures detected:"
             echo "$failures"
